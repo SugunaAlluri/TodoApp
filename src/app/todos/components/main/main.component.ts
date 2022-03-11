@@ -17,7 +17,7 @@ export class MainComponent {
   constructor(private todosService: TodosService) {
 
     this.isAllTodosSelected$ = this.todosService.todos$.pipe(
-      map((todos) => todos.every((todo) => todo.isCompleted))
+      map((todos) => todos.every((todo) => todo.status))
     );
 
     this.noTodoClass$ = this.todosService.todos$.pipe(
@@ -29,9 +29,9 @@ export class MainComponent {
        this.todosService.filter$]
     ).pipe(map(([todos,filter]) => {
        if (filter === FilterEnum.active) {
-         return todos.filter(todo => !todo.isCompleted)
+         return todos.filter(todo => !todo.status)
        } else if (filter === FilterEnum.completed) {
-        return todos.filter(todo => todo.isCompleted)
+        return todos.filter(todo => todo.status)
        }
        return todos;
       })

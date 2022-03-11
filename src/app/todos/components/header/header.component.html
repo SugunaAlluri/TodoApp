@@ -1,11 +1,21 @@
 <header>
-    <h1>todos</h1>
-    <input 
-       class="new-todo" 
-       placeholder="What needs to be done?" 
-       autofocus 
-       [value]="text"
-       (keyup)="changeText($event)"
-       (keyup.enter)="addTodo()"
-    />
+    <h1>Todos</h1>
+    <div class="d-flex prioritySelect">
+        <input 
+         class="new-todo" 
+         placeholder="What needs to be done?" 
+         autofocus 
+         [value]="title"
+         (keyup)="changeTitle($event)"
+         (keyup.enter)="addTodo()"
+        />
+        <select 
+         class="form-control"
+         (change)="selectPriority($event)">
+            <option  value="Low" selected>Low</option>
+            <option  value="Medium">Medium</option>
+            <option  value="High">High</option>
+        </select>
+    </div>
+   
 </header>

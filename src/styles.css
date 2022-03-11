@@ -32,7 +32,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	font-weight: 300;
 }
-
+.prioritySelect select{
+	border: 1px solid #e0e0e0;
+	padding: 6px;
+}
 :focus {
 	outline: 0;
 }
@@ -80,6 +83,59 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
+.d-flex {
+	display: flex;
+}
+
+.view{
+	display: flex;
+	width: 100%;
+	align-self: center;
+}
+
+.date-format {
+	font-size: 12px;
+	margin-left: 0px;
+	padding:15px !important; 
+	color: #707070 !important;
+}
+.selectpriority{
+	border: 1px solid #999 !important;
+	box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2) !important;
+	margin-left: 0px !important;
+}
+.edit-todo-priority {   
+	padding:0px;
+	height: 50px;
+	font-size: 15px;
+	width:70px
+}
+.selctOption{
+	margin-left:auto;
+}
+.task{
+	font-size:18px;
+}
+.d-flex listTodo {
+	position: relative;
+	width:100%;
+}
+.closeBtn {
+	margin-right: 10px;
+}
+.closeBtn:hover{
+	color: red;
+}
+.edit-todo-div {
+	display: flex;
+	margin-bottom:24px;
+}
+.edit-todo-title {
+	padding:8px;
+	height: 38px;
+	font-size: 15px;
+	margin-left: 60px;
+}
 .new-todo,
 .edit {
 	position: relative;
@@ -99,10 +155,15 @@ body {
 }
 
 .new-todo {
-	padding: 16px 16px 16px 60px;
+	padding: 14px 16px 16px 60px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
 	box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+}
+
+.new-todo-priority {
+    /*ToDo*/
+    display: inline;
 }
 
 .main {
@@ -135,7 +196,7 @@ body {
 .toggle-all + label:before {
 	content: '❯';
 	font-size: 22px;
-	color: #e6e6e6;
+	color: #7e48d4;
 	padding: 10px 27px 10px 27px;
 }
 
@@ -166,13 +227,13 @@ body {
 
 .todo-list li.editing .edit {
 	display: block;
-	width: calc(100% - 43px);
+	width: calc(100% - 250px);
 	padding: 12px 16px;
 	margin: 0 0 0 43px;
 }
 
 .todo-list li.editing .view {
-	display: none;
+	display: flex;
 }
 
 .todo-list li .toggle {
@@ -209,12 +270,13 @@ body {
 
 .todo-list li label {
 	word-break: break-all;
-	padding: 15px 15px 15px 60px;
+	padding: 15px 175px 15px 50px;
 	display: block;
 	line-height: 1.2;
 	transition: color 0.4s;
 	font-weight: 400;
 	color: #4d4d4d;
+	align-self: center;
 }
 
 .todo-list li.completed label {
@@ -222,6 +284,11 @@ body {
 	text-decoration: line-through;
 }
 
+.destroy {
+	font-size: 20px;
+}
+
+/*
 .todo-list li .destroy {
 	display: none;
 	position: absolute;
@@ -248,6 +315,7 @@ body {
 .todo-list li:hover .destroy {
 	display: block;
 }
+*/
 
 .todo-list li .edit {
 	display: none;
@@ -354,6 +422,12 @@ html .clear-completed:active {
 	text-decoration: underline;
 }
 
+.listTodo select {
+	border: none;
+}
+.listTodo:hover{
+	border-bottom: #00529f;
+}
 /*
 	Hack to remove background from Mobile Safari.
 	Can't use it globally since it destroys checkboxes in Firefox

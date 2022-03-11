@@ -14,20 +14,23 @@ export class TodoComponent implements OnInit,OnChanges {
   @Output('setEditingId') setEditingIdEvent: EventEmitter<
    string | null
   > = new EventEmitter()
-  editingText: string = ''
-  @ViewChild('textInput') textInput: ElementRef
+  editingTitle: string = ''
+  @ViewChild('titleInput') titleInput: ElementRef
+  editingPriority: string = ''
+  @ViewChild('priorityInput') priorityInput: ElementRef
 
   constructor(private todosService: TodosService) {}
 
   ngOnInit(): void {
-    this.editingText = this.todoProps.text
+    this.editingTitle = this.todoProps.title
+    this.editingPriority = this.todoProps.priority
   }
   
   // To set autofocus while editing todo
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isEditingProps'].currentValue) {
       setTimeout(() => {
-        this.textInput.nativeElement.focus()
+        this.titleInput.nativeElement.focus()
       }, 0) 
     }
   }
@@ -36,22 +39,27 @@ export class TodoComponent implements OnInit,OnChanges {
     this.setEditingIdEvent.emit(this.todoProps.id)
   }
 
-  removeTodo(): void {
-    this.todosService.removeTodo(this.todoProps.id)
+  deleteTodo(): void {
+    this.todosService.deleteTodo(this.todoProps.id)
   }
 
-  toggleTodo(): void {
-    this.todosService.toggleTodo(this.todoProps.id)
+  completeTodo(): void {
+    this.todosService.completeTodo(this.todoProps.id)
   }
   
-  changeText(event: Event): void {
+  changeTitle(event: Event): void {
     const value = (event.target as HTMLInputElement).value
-    this.editingText = value
+    this.editingTitle = value
   }
 
-  //Update Todo text and close editing mode
-  changeTodo(): void {
-    this.todosService.changeTodo(this.todoProps.id, this.editingText)
+  changePriority(event: Event): void {
+    const value = (event.target as HTMLInputElement).value
+    this.editingPriority = value
+  }
+
+  //Update Todo title and close editing mode
+  editTodo(): void {
+    this.todosService.editTodo(this.todoProps.id, this.editingTitle, this.editingPriority)
     this.setEditingIdEvent.emit(null)
   }
 }

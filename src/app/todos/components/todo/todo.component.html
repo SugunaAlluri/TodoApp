@@ -1,20 +1,41 @@
-<li [ngClass]="{ editing: isEditingProps }">
+<div class="d-flex listTodo">
+  <li [ngClass]="{ editing: isEditingProps }"
+      style="position: relative;width:100%;">
     <div class="view">
         <input 
           class="toggle" 
           type="checkbox" 
-          [checked]="todoProps.isCompleted"
-          (change)="toggleTodo()"
+          [checked]="todoProps.status"
+          (change)="completeTodo()"
         />
-        <label (dblclick)="setTodoInEditMode()">{{ todoProps.text }}</label>
-        <button class="destroy"(click)="removeTodo()"></button>
+        <label (dblclick)="setTodoInEditMode()" class="task">{{ todoProps.title }}</label>
+        <select (click)="setTodoInEditMode()" class="edit-todo-priority">
+          <option>{{ todoProps.priority }}</option>
+        </select>
+        <label class="date-format">{{ todoProps.dateCreated }}</label>
+        <button class="destroy" class="closeBtn" (click)="deleteTodo()">&times;</button>
     </div>
     <ng-container *ngIf="isEditingProps">
+      <div style="display: flex;margin-bottom:24px;">
         <input 
-          class="edit" 
-          [value]="editingText"
-          (keyup)="changeText($event)"
-          (keyup.enter)="changeTodo()"
+          class="edit"
+          style="padding:8px;height: 38px;font-size: 15px;margin-left: 60px;"
+          #titleInput
+          [value]="editingTitle"
+          (keyup)="changeTitle($event)"
+          (keyup.enter)="editTodo()"
         />
+        <select 
+         style="padding:0px;height: 38px;font-size: 15px;width:140px;"
+         class="selectpriority edit"
+         (change)="changePriority($event)"
+         #priorityInput>
+            <option  value="low">Low</option>
+            <option  value="medium">Medium</option>
+            <option  value="high">High</option>
+        </select>
+      </div>
     </ng-container>
-</li>
+  </li>
+</div>
+

@@ -20,7 +20,7 @@ export class FooterComponent {
     );
 
     this.activeCount$ = this.todosService.todos$.pipe(
-      map((todos) => todos.filter(todo => !todo.isCompleted).length)
+      map((todos) => todos.filter(todo => !todo.status).length)
     );
 
     this.itemsLeftText$ = this.activeCount$.pipe(

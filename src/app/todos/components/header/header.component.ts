@@ -7,17 +7,23 @@ import { TodosService } from 'src/app/todos/services/todos.service';
 })
 
 export class HeaderComponent {
-  text: string = '';
+  title: string = '';
+  priority: string = 'low'
 
   constructor(private todosService: TodosService) {}
 
-  changeText(event: Event): void {
+  changeTitle(event: Event): void {
     const target = event.target as HTMLInputElement
-    this.text = target.value
+    this.title = target.value
+  }
+
+  selectPriority(event: Event): void {
+    const target = event.target as HTMLInputElement
+    this.priority = target.value
   }
 
   addTodo(): void {
-    this.todosService.addTodo(this.text)
-    this.text = ''
+    this.todosService.addTodo(this.title, this.priority)
+    this.title = ''
   }
 }

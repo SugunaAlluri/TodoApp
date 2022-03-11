@@ -1,33 +1,44 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TodoInterface } from 'src/app/todos/types/todo.interface';
 import { FilterEnum } from 'src/app/todos/types/filter.enum';
+import { TodoServiceInterface } from 'src/app/todos/types/todo.service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodosService {
-
-  constructor() {}
+export class TodosService implements TodoServiceInterface{
+  url = 'http://localhost:3000'
+  constructor(private httpClient: HttpClient) {}
+  
   todos$ = new BehaviorSubject<TodoInterface[]>([])
   filter$ = new BehaviorSubject<FilterEnum>(FilterEnum.all)
 
-  addTodo(text: string): void {
+  getTodos(): Observable<TodoInterface[]> {
+    //return this.httpClient.get('/api/todo') as Observable<TodoInterface[]>
+    return this.httpClient.get(this.url) as Observable<TodoInterface[]>
+  }
+
+  addTodo(title: string, priority: string): void {
+
     const newTodo: TodoInterface = {
-      text,
-      isCompleted: false,
+      title,
+      status: false,
       id: Math.random().toString(16),
+      dateCreated: new Date().toLocaleString(),
+      priority
     };
     const updatesTodos = [...this.todos$.getValue(), newTodo]
     this.todos$.next(updatesTodos)
     // TODO : Include call to BE to fetch values
   }
 
-  toggleAll(isCompleted: boolean): void {
+  toggleAll(status: boolean): void {
     const updatedTodos = this.todos$.getValue().map(todo => {
       return {
         ...todo,
-        isCompleted
+        status
       }
     });
     this.todos$.next(updatedTodos)
@@ -37,12 +48,13 @@ export class TodosService {
     this.filter$.next(filterName)
   }
 
-  changeTodo(id: string, text: string): void {
+  editTodo(id: string, title: string, priority: string): void {
     const updatedTodos = this.todos$.getValue().map(todo => {
       if (todo.id === id) {
         return {
           ...todo,
-          text,
+          title,
+          priority,
         };
       }
       return todo
@@ -50,19 +62,20 @@ export class TodosService {
     this.todos$.next(updatedTodos);
   }
 
-  removeTodo(id: string): void {
+  deleteTodo(id: string): void {
     const updatedTodos = this.todos$
       .getValue()
       .filter((todo) => todo.id != id)
       this.todos$.next(updatedTodos)
   }
 
-  toggleTodo(id: string): void {
+  // sets a todo status to Completed
+  completeTodo(id: string): void {
     const updatedTodos = this.todos$.getValue().map(todo => {
       if (todo.id === id) {
         return {
           ...todo,
-          isCompleted: !todo.isCompleted,
+          status: !todo.status,
         }
       }
       return todo
